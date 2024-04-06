@@ -1,0 +1,55 @@
+package Day5;
+
+	
+	import java.util.function.Function;
+	import java.util.stream.IntStream;
+
+	public class NumberCategory {
+
+	    public interface NumberCategoryInterface {
+	        boolean checkNumberCategory(int number1, int number2);
+	    }
+
+	    public static class NumberCategoryUtility {
+
+	        public static NumberCategoryInterface checkAmicable() {
+	            return (number1, number2) -> {
+	                int sum1 = getDivisorSum(number1);
+	                int sum2 = getDivisorSum(number2);
+	                return number1 != number2 && sum1 == number2 && sum2 == number1;
+	            };
+	        }
+
+	        public static NumberCategoryInterface checkPalindrome() {
+	            return (number1, number2) -> {
+	                int product = number1 * number2;
+	                return String.valueOf(product).equals(new StringBuilder(String.valueOf(product)).reverse().toString());
+	            };
+	        }
+
+	        private static int getDivisorSum(int number) {
+	            return IntStream.rangeClosed(1, number / 2)
+	                    .filter(divisor -> number % divisor == 0)
+	                    .sum();
+	        }
+	    }
+
+	    public static void main(String[] args) {
+	        java.util.Scanner scanner = new java.util.Scanner(System.in);
+
+	        System.out.println("Enter first number: ");
+	        int number1 = scanner.nextInt();
+
+	        System.out.println("Enter second number: ");
+	        int number2 = scanner.nextInt();
+
+	        NumberCategoryInterface checkAmicable = NumberCategoryUtility.checkAmicable();
+	        NumberCategoryInterface checkPalindrome = NumberCategoryUtility.checkPalindrome();
+
+	        System.out.println(number1 + " and " + number2 + " are " + (checkAmicable.checkNumberCategory(number1, number2) ? "amicable numbers" : "not amicable numbers"));
+	        System.out.println("Their Product " + number1 * number2 + (checkPalindrome.checkNumberCategory(number1, number2) ? " does produce a Palindrome" : " does not produce a Palindrome"));
+	    }
+	}
+
+
+
